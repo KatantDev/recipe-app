@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS recipes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    photoPath TEXT NOT NULL,
+    calorieContent INTEGER NOT NULL,
+    difficulty TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM recipes
+WHERE
+    (category LIKE :categorySearch OR :categorySearch IS NULL) AND
+    (difficulty LIKE :difficultySearch OR :difficultySearch IS NULL);
+
+insert:
+INSERT INTO recipes(name, category, photoPath, calorieContent, difficulty)
+VALUES (?, ?, ?, ?, ?);
+
+deleteById:
+DELETE FROM recipes WHERE id = ?;
+
+selectLastId:
+SELECT MAX(id) FROM recipes;

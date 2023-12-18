@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS recipeIngredient (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    recipeId INTEGER NOT NULL,
+    measure TEXT NOT NULL,
+    quantity REAL,
+    foodName TEXT NOT NULL,
+    FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE
+);
+
+selectByRecipeId:
+SELECT * FROM recipeIngredient WHERE recipeId = ?;
+
+insert:
+INSERT INTO recipeIngredient(recipeId, measure, quantity, foodName)
+VALUES (?, ?, ?, ?);
+
+updateValueById:
+UPDATE recipeIngredient SET foodName = ?, quantity = ?, measure = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM recipeIngredient WHERE id = ?;
+
+selectLastId:
+SELECT MAX(id) FROM recipeIngredient WHERE recipeId = ?;

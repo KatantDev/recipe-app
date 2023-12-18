@@ -1,0 +1,39 @@
+CREATE TABLE IF NOT EXISTS recipesBody (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    recipeId INTEGER NOT NULL,
+    type TEXT NOT NULL,
+    position INTEGER NOT NULL,
+    body TEXT,
+    FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE
+);
+
+selectById:
+SELECT * FROM recipesBody WHERE id = ?;
+
+selectByRecipeId:
+SELECT * FROM recipesBody WHERE recipeId = ? ORDER BY position ASC;
+
+insert:
+INSERT INTO recipesBody(recipeId, type, body, position)
+VALUES (?, ?, ?, ?);
+
+updateBodyById:
+UPDATE recipesBody SET body = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM recipesBody WHERE id = ?;
+
+selectLastId:
+SELECT MAX(id) FROM recipesBody WHERE recipeId = ?;
+
+selectMaxPosition:
+SELECT MAX(position) FROM recipesBody WHERE recipeId = ?;
+
+updatePositionToLower:
+UPDATE recipesBody
+SET position = position - 1
+WHERE position > (SELECT position FROM recipesBody WHERE id = :id)
+AND recipeId = (SELECT recipeId FROM recipesBody WHERE id = :id);
+
+updatePosition:
+UPDATE recipesBody SET position = :nextPosition WHERE id = :currentId;
